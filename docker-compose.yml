@@ -68,6 +68,21 @@ services:
       - ./jobs:/opt/spark/jobs
       - ./data:/opt/spark/data
 
+  jupyter:
+    image: jupyter/pyspark-notebook:latest
+    container_name: jupyter-lab
+    ports:
+      - "8888:8888"
+    environment:
+      - SPARK_MASTER=spark://spark-master:7077
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=bigdata
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/opt/spark/data
+    depends_on:
+      - spark-master
+
 volumes:
   namenode_data:
   datanode_data:
